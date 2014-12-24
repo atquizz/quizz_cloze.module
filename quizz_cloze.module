@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Implementation of hook_quiz_question_info().
+ * Implementation of hook_quizz_question_info().
  */
-function quizz_cloze_quiz_question_info() {
+function quizz_cloze_quizz_question_info() {
   return array(
       'cloze' => array(
           'name'              => t('Cloze question'),

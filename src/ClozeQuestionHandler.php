@@ -29,7 +29,7 @@ class ClozeQuestionHandler extends QuestionHandler {
     parent::onNewQuestionTypeCreated($question_type);
 
     // Hide full question to user on taking.
-    $instance = field_info_instance('quiz_question', 'quiz_question_body', $question_type->type);
+    $instance = field_info_instance('quiz_question_entity', 'quiz_question_body', $question_type->type);
     $instance['display']['default']['type'] = 'hidden';
     field_update_instance($instance);
   }

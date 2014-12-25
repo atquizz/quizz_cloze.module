@@ -19,7 +19,7 @@ function quizz_cloze_quizz_question_info() {
  * Implementation of hook_form_alter()
  */
 function quizz_cloze_form_alter(&$form, &$form_state, $form_id) {
-  if (isset($form['#entity']) && !empty($form['#entity_type']) && 'quiz_question' === $form['#entity_type']) {
+  if (isset($form['#entity']) && !empty($form['#entity_type']) && 'quiz_question_entity' === $form['#entity_type']) {
     $question_type = quizz_question_type_load($form['#entity']->type);
     if ('cloze' === $question_type->handler) {
       $form['#after_build'][] = 'quizz_cloze_form_alter_after_build';

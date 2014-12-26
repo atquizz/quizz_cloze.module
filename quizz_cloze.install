@@ -11,7 +11,7 @@ function quizz_cloze_install() {
  * Implementation of hook_schema().
  */
 function quizz_cloze_schema() {
-  $schema['quiz_cloze_user_answers'] = array(
+  $schema['quizz_cloze_answer'] = array(
       'description' => 'Store user\'s inputs.',
       'fields'      => array(
           'answer_id'    => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE,),
@@ -52,7 +52,7 @@ function quizz_cloze_update_7401() {
  */
 function quizz_cloze_quiz_question_upgrade_schema_node_to_entity() {
   if (db_table_exists('quiz_cloze_node_properties')) {
-    db_change_field('quiz_cloze_user_answers', 'question_nid', 'question_qid', array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE));
+    db_change_field('quizz_cloze_answer', 'question_nid', 'question_qid', array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE));
     db_rename_table('quiz_cloze_node_properties', 'quiz_cloze_question_properties');
     db_change_field('quiz_cloze_question_properties', 'nid', 'qid');
   }
@@ -70,7 +70,7 @@ function quizz_cloze_quiz_question_upgrade_pre_drop_temp_columns() {
     . " WHERE 1"
   );
 
-  // quiz_cloze_user_answers
+  // quizz_cloze_answer
   db_query(
     "UPDATE {quiz_matching_properties} as ua"
     . " INNER JOIN {quiz_question_revision} qr ON ua.question_vid = qr.node_vid"

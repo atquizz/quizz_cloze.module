@@ -61,7 +61,7 @@ class ClozeQuestionHandler extends QuestionHandler {
 
   public function delete($only_this_version = FALSE) {
     parent::delete($only_this_version);
-    $delete_ans = db_delete('quiz_cloze_user_answers');
+    $delete_ans = db_delete('quizz_cloze_answer');
     $delete_ans->condition('question_qid', $this->question->qid);
     if ($only_this_version) {
       $delete_ans->condition('question_vid', $this->question->vid);

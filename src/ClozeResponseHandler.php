@@ -14,7 +14,7 @@ class ClozeResponseHandler extends ResponseHandler {
    * {@inheritdoc}
    * @var string
    */
-  protected $base_table = 'quiz_cloze_user_answers';
+  protected $base_table = 'quizz_cloze_answer';
 
   /** @var int */
   protected $answer_id = 0;
@@ -41,7 +41,7 @@ class ClozeResponseHandler extends ResponseHandler {
   private function getStoredUserInput() {
     return db_query(
         "SELECT answer_id, answer, score, question_vid, question_qid, result_id"
-        . " FROM {quiz_cloze_user_answers}"
+        . " FROM {quizz_cloze_answer}"
         . " WHERE question_qid = :question_qid"
         . "   AND question_vid = :question_vid"
         . "   AND result_id = :result_id", array(
@@ -55,7 +55,7 @@ class ClozeResponseHandler extends ResponseHandler {
    * {@inheritdoc}
    */
   public function save() {
-    db_merge('quiz_cloze_user_answers')
+    db_merge('quizz_cloze_answer')
       ->key(array(
           'question_qid' => $this->question->qid,
           'question_vid' => $this->question->vid,

@@ -10,14 +10,8 @@ use Drupal\quizz_question\ResponseHandler;
  */
 class ClozeResponseHandler extends ResponseHandler {
 
-  /**
-   * {@inheritdoc}
-   * @var string
-   */
+  /** {@inheritdoc} */
   protected $base_table = 'quiz_cloze_answer';
-
-  /** @var int */
-  protected $answer_id = 0;
 
   /** @var Helper */
   private $helper;
@@ -30,7 +24,6 @@ class ClozeResponseHandler extends ResponseHandler {
       if ($stored_input = $this->getStoredUserInput()) {
         $this->answer = unserialize($stored_input->answer);
         $this->score = $stored_input->score;
-        $this->answer_id = $stored_input->answer_id;
       }
     }
     else {
@@ -40,14 +33,10 @@ class ClozeResponseHandler extends ResponseHandler {
 
   private function getStoredUserInput() {
     return db_query(
-        "SELECT answer_id, answer, score, question_vid, question_qid, result_id"
+        "SELECT answer_id, answer, score"
         . " FROM {quiz_cloze_answer}"
-        . " WHERE question_qid = :question_qid"
-        . "   AND question_vid = :question_vid"
-        . "   AND result_id = :result_id", array(
-          ':question_qid' => $this->question->qid,
-          ':question_vid' => $this->question->vid,
-          ':result_id'    => $this->result_id
+        . " WHERE answer_id = :answer_id", array(
+          ':answer_id' => $this->loadAnswerEntity()->id
       ))->fetch();
   }
 
@@ -56,11 +45,7 @@ class ClozeResponseHandler extends ResponseHandler {
    */
   public function save() {
     db_merge('quiz_cloze_answer')
-      ->key(array(
-          'question_qid' => $this->question->qid,
-          'question_vid' => $this->question->vid,
-          'result_id'    => $this->result_id,
-      ))
+      ->key(array('answer_id' => $this->loadAnswerEntity()->id))
       ->fields(array(
           'answer' => serialize($this->answer),
           'score'  => $this->getScore(FALSE),

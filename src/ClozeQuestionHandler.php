@@ -17,6 +17,12 @@ class ClozeQuestionHandler extends QuestionHandler {
   /** @var Helper */
   private $clozeHelper;
 
+  /** @var string */
+  protected $base_table = 'quiz_cloze_question';
+
+  /** @var string */
+  protected $base_answer_table = 'quiz_cloze_answer';
+
   public function __construct(Question $question) {
     parent::__construct($question);
     $this->clozeHelper = new Helper();
@@ -57,16 +63,6 @@ class ClozeQuestionHandler extends QuestionHandler {
     if (substr_count($this->question->quiz_question_body[LANGUAGE_NONE]['0']['value'], '[') !== substr_count($this->question->quiz_question_body[LANGUAGE_NONE]['0']['value'], ']')) {
       form_set_error('body', t('Please check the question format.'));
     }
-  }
-
-  public function delete($only_this_version = FALSE) {
-    parent::delete($only_this_version);
-    $delete_ans = db_delete('quiz_cloze_answer');
-    $delete_ans->condition('question_qid', $this->question->qid);
-    if ($only_this_version) {
-      $delete_ans->condition('question_vid', $this->question->vid);
-    }
-    $delete_ans->execute();
   }
 
   /**

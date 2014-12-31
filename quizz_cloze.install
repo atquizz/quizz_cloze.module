@@ -11,7 +11,16 @@ function quizz_cloze_install() {
  * Implementation of hook_schema().
  */
 function quizz_cloze_schema() {
-  $schema['quizz_cloze_answer'] = array(
+  $schema['quiz_cloze_question'] = array(
+      'fields'      => array(
+          'qid'           => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+          'vid'           => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+          'learning_mode' => array('type' => 'int', 'size' => 'tiny', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0,),
+      ),
+      'primary key' => array('qid', 'vid'),
+  );
+
+  $schema['quiz_cloze_answer'] = array(
       'description' => 'Store user\'s inputs.',
       'fields'      => array(
           'answer_id'    => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE,),
@@ -25,15 +34,6 @@ function quizz_cloze_schema() {
       'unique keys' => array(
           'ids' => array('result_id', 'question_qid', 'question_vid'),
       ),
-  );
-
-  $schema['quiz_cloze_question_properties'] = array(
-      'fields'      => array(
-          'qid'           => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
-          'vid'           => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
-          'learning_mode' => array('type' => 'int', 'size' => 'tiny', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0,),
-      ),
-      'primary key' => array('qid', 'vid'),
   );
 
   return $schema;

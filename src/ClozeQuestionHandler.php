@@ -38,7 +38,7 @@ class ClozeQuestionHandler extends QuestionHandler {
    * {@inheritdoc}
    */
   public function onSave($is_new = FALSE) {
-    db_merge('quiz_cloze_question_properties')
+    db_merge('quiz_cloze_question')
       ->key(array(
           'qid' => $this->question->qid,
           'vid' => $this->question->vid,
@@ -61,7 +61,7 @@ class ClozeQuestionHandler extends QuestionHandler {
 
   public function delete($only_this_version = FALSE) {
     parent::delete($only_this_version);
-    $delete_ans = db_delete('quizz_cloze_answer');
+    $delete_ans = db_delete('quiz_cloze_answer');
     $delete_ans->condition('question_qid', $this->question->qid);
     if ($only_this_version) {
       $delete_ans->condition('question_vid', $this->question->vid);
@@ -78,7 +78,7 @@ class ClozeQuestionHandler extends QuestionHandler {
     }
     $properties = parent::load();
     $res_a = db_query(
-      'SELECT learning_mode FROM {quiz_cloze_question_properties} WHERE qid = :qid AND vid = :vid', array(
+      'SELECT learning_mode FROM {quiz_cloze_question} WHERE qid = :qid AND vid = :vid', array(
         ':qid' => $this->question->qid,
         ':vid' => $this->question->vid
       ))->fetchAssoc();
